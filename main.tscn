@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Planet.tscn" type="PackedScene" id=1]
+[ext_resource path="res://main.gd" type="Script" id=2]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="Planet" parent="." instance=ExtResource( 1 )]
+mass = 65535.0
+
+[node name="Camera2D" type="Camera2D" parent="Planet"]
+current = true
+
+[node name="Planet2" parent="." instance=ExtResource( 1 )]
+position = Vector2( 119.933, -175.244 )
+mass = 4367.56
+
+[node name="Planet3" parent="." instance=ExtResource( 1 )]
+position = Vector2( 381.91, -209.57 )
+mass = 10784.1
