@@ -35,7 +35,6 @@ limit_smoothed = true
 drag_margin_h_enabled = true
 drag_margin_v_enabled = true
 editor_draw_limits = true
-editor_draw_drag_margin = true
 script = ExtResource( 4 )
 
 [node name="Borders" type="Node2D" parent="."]
