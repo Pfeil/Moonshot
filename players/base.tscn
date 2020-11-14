@@ -28,3 +28,8 @@ default_color = Color( 0.968627, 0.4, 1, 1 )
 position = Vector2( -0.256761, 0 )
 scale = Vector2( 0.743239, 1 )
 default_color = Color( 1, 0.4, 0.4, 1 )
+
+[node name="jump_charger" parent="." instance=ExtResource( 2 )]
+position = Vector2( -21, 15 )
+points = PoolVector2Array( 0, 0, 0, -30 )
+width = 5.0
