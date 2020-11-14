@@ -11,8 +11,10 @@
 mass = 65535.0
 
 [node name="Playerbase" parent="." instance=ExtResource( 1 )]
-position = Vector2( 0.33847, -144.784 )
-kinematic_gravity = 5.0
+position = Vector2( -32.9989, -87.4737 )
+speed = 50.0
+kinematic_gravity = 50.0
+sticky_vector_length = 40.0
 
 [node name="Camera2D" parent="Playerbase" instance=ExtResource( 3 )]
 

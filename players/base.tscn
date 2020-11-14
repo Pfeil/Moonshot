@@ -22,9 +22,9 @@ polygon = PoolVector2Array( -4.59151, -21.0221, -4.51276, -2.67447, 3.83421, -2.
 default_color = Color( 0.431373, 1, 0.4, 1 )
 
 [node name="sticky_vector" parent="." instance=ExtResource( 2 )]
-visible = false
 default_color = Color( 0.968627, 0.4, 1, 1 )
 
-[node name="up_vector" parent="." instance=ExtResource( 2 )]
-visible = false
+[node name="linear_velocity_vector" parent="." instance=ExtResource( 2 )]
+position = Vector2( -0.256761, 0 )
+scale = Vector2( 0.743239, 1 )
 default_color = Color( 1, 0.4, 0.4, 1 )
