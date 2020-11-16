@@ -1,23 +1,42 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://players/base.tscn" type="PackedScene" id=1]
+[ext_resource path="res://players/rigidplayer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Planet.tscn" type="PackedScene" id=2]
 [ext_resource path="res://tools/SimpleCamera.tscn" type="PackedScene" id=3]
 [ext_resource path="res://icon.png" type="Texture" id=4]
 
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 62.7417, 11.9762 )
+
 [node name="Playertest" type="Node2D"]
-
-[node name="Planet" parent="." instance=ExtResource( 2 )]
-mass = 65535.0
-
-[node name="Playerbase" parent="." instance=ExtResource( 1 )]
-position = Vector2( -30.0825, -302.48 )
-speed = 150.0
-kinematic_gravity = 200.0
-sticky_vector_length = 40.0
-
-[node name="Camera2D" parent="Playerbase" instance=ExtResource( 3 )]
 
 [node name="icon" type="Sprite" parent="."]
 position = Vector2( -212.467, -4.43408 )
 texture = ExtResource( 4 )
+
+[node name="RigidBody2D" type="RigidBody2D" parent="." groups=[
+"walkables",
+]]
+position = Vector2( -143.822, -101.984 )
+rotation = -0.146676
+mode = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
+shape = SubResource( 1 )
+
+[node name="Planet" parent="." instance=ExtResource( 2 )]
+mass = 12846.2
+
+[node name="Planet2" parent="." instance=ExtResource( 2 )]
+position = Vector2( 423.044, -351.331 )
+mass = 65535.0
+
+[node name="RigidPlayer" parent="." instance=ExtResource( 1 )]
+position = Vector2( 0, -127.83 )
+rotation = 0.559126
+
+[node name="Camera2D" parent="RigidPlayer" instance=ExtResource( 3 )]
+
+[node name="Polygon2D" type="Polygon2D" parent="RigidPlayer"]
+color = Color( 0.537255, 0.270588, 0.968627, 1 )
+polygon = PoolVector2Array( -0.980117, 4.50397, 1.02667, 4.50397, 1.06383, -2.01809, 0.48781, -3.44886, -0.60849, -3.43027, -0.998698, -1.98093 )
