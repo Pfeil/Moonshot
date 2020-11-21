@@ -18,8 +18,7 @@ func _physics_process(delta: float):
 		var dir_vector: Vector2 = distance_vector.normalized()
 		var impulse = G * (self.get_mass() * body.get_mass()) / distance_squared
 		var impulse_vector = impulse * dir_vector
-		self.apply_central_impulse(impulse_vector)
-		impulse_arrow.set_direction(impulse_vector.rotated(-self.rotation))
+		body.apply_central_impulse(-impulse_vector)
 
 
 func _on_GravityArea_body_entered(body):
