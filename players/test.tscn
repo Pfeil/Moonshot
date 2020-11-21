@@ -12,6 +12,7 @@ extents = Vector2( 62.7417, 11.9762 )
 
 [node name="icon" type="Sprite" parent="."]
 position = Vector2( -212.467, -4.43408 )
+rotation = -3.12926
 texture = ExtResource( 4 )
 
 [node name="RigidBody2D" type="RigidBody2D" parent="." groups=[

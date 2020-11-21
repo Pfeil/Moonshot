@@ -55,6 +55,7 @@ func _physics_process(delta):
 	elif self.state == PLAYER_STATE.GETTING_OFF:
 		self.mode = MODE_RIGID
 		self.sticky_to = null
+		self.linear_velocity = Vector2.ZERO
 		self.state = PLAYER_STATE.MID_AIR
 		self.apply_central_impulse(self.calculate_jump_impulse())
 
@@ -70,7 +71,7 @@ func update_direction_vectors():
 
 func updateVectors():
 	self.control_arrow.set_direction(self.control_direction)
-	self.velocity_arrow.set_direction(self.linear_velocity)
+	self.velocity_arrow.set_direction(self.linear_velocity.rotated(-self.rotation))
 	# TODO visualize applied force?
 	
 func calculate_jump_impulse():
