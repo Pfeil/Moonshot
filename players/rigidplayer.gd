@@ -30,6 +30,7 @@ func _process(delta):
 	self.update_direction_vectors()
 	self.updateVectors()
 	if self.state == PLAYER_STATE.ON_FLOOR:
+		self.flip()
 		if Input.is_action_pressed("Player_JUMP") and self.jump_charge_max_seconds > self.jump_charge_time:
 			self.jump_charge_time += delta
 			self.jump_charger_bar.set_percent(self.jump_charge_time / self.jump_charge_max_seconds)
@@ -82,6 +83,11 @@ func calculate_jump_impulse():
 		jump_force.y *= -1
 	return jump_force.rotated(self.rotation).normalized() * percent * self.jump_factor
 
+func flip():
+	if self.control_direction.x > 0.0:
+		self.scale.x = 1
+	elif self.control_direction.x < 0.0:
+		self.scale.x = -1
 
 func _on_RigidPlayer_body_shape_entered(_body_id: int, body: Node, _body_shape: int, _local_shape: int):
 	if self.state != PLAYER_STATE.GETTING_OFF and body.is_in_group("walkables"):

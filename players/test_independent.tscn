@@ -1,14 +1,15 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://icon.png" type="Texture" id=1]
 [ext_resource path="res://players/rigidplayer.tscn" type="PackedScene" id=2]
 [ext_resource path="res://tools/SimpleCamera.tscn" type="PackedScene" id=3]
+[ext_resource path="res://weapons/boxing_gloves/boxing_gloves.tscn" type="PackedScene" id=4]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 28.9022
 
 [sub_resource type="CircleShape2D" id=2]
-radius = 1120.06
+radius = 1168.78
 
 [node name="Static Planets Test" type="Node2D"]
 
@@ -113,5 +114,9 @@ rotation = 0.281539
 linear_damp = 0.05
 jump_charge_max_seconds = 2.0
 jump_factor = 80
+moving_speed = 30
 
 [node name="Camera2D" parent="RigidPlayer" instance=ExtResource( 3 )]
+
+[node name="BoxingGloves" parent="RigidPlayer" instance=ExtResource( 4 )]
+position = Vector2( 2.3879, -0.144688 )
