@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Planet.tscn" type="PackedScene" id=1]
 [ext_resource path="res://tools/MassCenterCamera2D.gd" type="Script" id=2]
+[ext_resource path="res://players/rigidplayer.tscn" type="PackedScene" id=3]
 
 [node name="Solarsystem" type="Node2D"]
 
@@ -11,24 +12,7 @@ current = true
 script = ExtResource( 2 )
 
 [node name="Planet" parent="." instance=ExtResource( 1 )]
-mass = 15.0
+mass = 300.0
 
-[node name="Planet3" parent="." instance=ExtResource( 1 )]
-position = Vector2( -458.361, -270.833 )
-gravity_scale = 100.0
-start_implulse = Vector2( 0, 500 )
-
-[node name="Planet4" parent="." instance=ExtResource( 1 )]
-position = Vector2( 309.854, -33.2411 )
-gravity_scale = 100.0
-start_implulse = Vector2( 0, -500 )
-
-[node name="Planet5" parent="." instance=ExtResource( 1 )]
-position = Vector2( -460.144, 949.237 )
-gravity_scale = 100.0
-start_implulse = Vector2( 0, -500 )
-
-[node name="Planet7" parent="." instance=ExtResource( 1 )]
-position = Vector2( -855.288, 397.568 )
-gravity_scale = 100.0
-start_implulse = Vector2( 0, -500 )
+[node name="RigidPlayer" parent="." instance=ExtResource( 3 )]
+position = Vector2( -0.236542, -126.599 )

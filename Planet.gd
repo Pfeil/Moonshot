@@ -1,11 +1,14 @@
 extends RigidBody2D
 
+const G = 1		#TODO adjust this constant
+
 export var start_implulse = Vector2.ZERO
+export var around_planet_circulating_objects = []
+
 var rigidBodiesInRange = []
+
+onready var current_force = start_implulse
 onready var impulse_arrow = $ImpulseArrow
-
-const G = 100000		#TODO adjust this constant
-
 
 func _ready():
 	apply_impulse(Vector2.ZERO, start_implulse)
@@ -20,6 +23,11 @@ func _physics_process(delta: float):
 		var impulse_vector = impulse * dir_vector
 		body.apply_central_impulse(-impulse_vector)
 
+#overrides apply_central_impulse() to get current force
+func apply_central_impulse(impulse):
+	.apply_central_impulse(impulse)
+	current_force += impulse
+	
 
 func _on_GravityArea_body_entered(body):
 	if body.get_class() == "RigidBody2D":

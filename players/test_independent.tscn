@@ -20,8 +20,7 @@ texture = ExtResource( 1 )
 [node name="PlanetStatic" type="RigidBody2D" parent="." groups=[
 "walkables",
 ]]
-mode = 1
-mass = 65535.0
+gravity_scale = 0.0
 
 [node name="icon" type="Sprite" parent="PlanetStatic"]
 scale = Vector2( 0.689941, 0.689941 )

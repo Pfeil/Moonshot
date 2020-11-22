@@ -14,7 +14,7 @@ absorbent = true
 radius = 13798.3
 
 [sub_resource type="CircleShape2D" id=3]
-radius = 32.5965
+radius = 43.7347
 
 [node name="Planet" type="RigidBody2D" groups=[
 "hitables",

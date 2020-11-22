@@ -12,7 +12,7 @@ func _process(delta):
 		mass_sum += planet.get_mass()
 	mass_center /= mass_sum
 	self.position = mass_center
-	print(mass_center)
+
 
 
 func _input(event):

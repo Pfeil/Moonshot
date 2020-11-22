@@ -1,5 +1,9 @@
 extends RigidBody2D
 
+### Multiplayer Stuff ###
+export var player_num = 0
+
+
 ### Jumping section ###
 enum PLAYER_STATE {
 	ON_FLOOR,
@@ -17,7 +21,7 @@ export var moving_speed = 20
 var control_direction: Vector2 = Vector2.ZERO
 onready var control_arrow: Line2D = self.get_node("control_vector")
 var sticky_to = null
-var kinematic_gravity: float = 25.0
+export var kinematic_gravity: float = 25.0
 
 ### Velocity vector ###
 onready var velocity_arrow = self.get_node("velocity_vector")
@@ -31,10 +35,10 @@ func _process(delta):
 	self.updateVectors()
 	if self.state == PLAYER_STATE.ON_FLOOR:
 		self.flip()
-		if Input.is_action_pressed("Player_JUMP") and self.jump_charge_max_seconds > self.jump_charge_time:
+		if Input.is_action_pressed("Player_"+str(player_num)+"_JUMP") and self.jump_charge_max_seconds > self.jump_charge_time:
 			self.jump_charge_time += delta
 			self.jump_charger_bar.set_percent(self.jump_charge_time / self.jump_charge_max_seconds)
-		elif Input.is_action_just_released("Player_JUMP"):
+		elif Input.is_action_just_released("Player_"+str(player_num)+"_JUMP"):
 			# resetting the bar and time will be done later, when in mid air
 			self.state = PLAYER_STATE.GETTING_OFF
 	
@@ -65,9 +69,9 @@ func _physics_process(delta):
 func update_direction_vectors():
 	if self.state == PLAYER_STATE.ON_FLOOR:
 		self.control_direction = Vector2.ZERO
-		if Input.is_action_pressed("Player_LEFT"):
+		if Input.is_action_pressed("Player_"+str(player_num)+"_LEFT"):
 			self.control_direction.x = -self.moving_speed
-		if Input.is_action_pressed("Player_RIGHT"):
+		if Input.is_action_pressed("Player_"+str(player_num)+"_RIGHT"):
 			self.control_direction.x =  self.moving_speed
 
 func updateVectors():
