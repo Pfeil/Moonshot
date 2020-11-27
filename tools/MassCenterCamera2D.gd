@@ -56,7 +56,8 @@ func adjust_zoom_level():
 	
 	var target_size: Vector2 = Vector2(x, y)
 	self.arrow_distance.set_direction(target_size)
+	var distance = target_size.length()
 	var max_size: Vector2 = self.camera_start_size.size
-	var factor_difference: Vector2 = target_size / max_size
-	var max_factor: float = min(max(factor_difference.x, factor_difference.y), self.minimal_zoom_level)
+	var factor_difference: float = distance / max_size.y
+	var max_factor: float = min(factor_difference, self.minimal_zoom_level)
 	self.zoom = self.zoom.linear_interpolate(Vector2(max_factor, max_factor), self.camera_zoom_speed)
