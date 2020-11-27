@@ -1,8 +1,10 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://tools/MassCenterCamera2D.gd" type="Script" id=1]
+[ext_resource path="res://tools/direction_arrow.tscn" type="PackedScene" id=2]
 
 [node name="MassCenterCamera2D" type="Camera2D"]
-position = Vector2( -1.78174, 0 )
 current = true
 script = ExtResource( 1 )
+
+[node name="max_distance" parent="." instance=ExtResource( 2 )]
