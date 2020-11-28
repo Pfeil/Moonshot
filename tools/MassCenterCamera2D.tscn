@@ -1,7 +1,24 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://tools/MassCenterCamera2D.gd" type="Script" id=1]
 [ext_resource path="res://tools/direction_arrow.tscn" type="PackedScene" id=2]
+[ext_resource path="res://tools/play_area.gd" type="Script" id=3]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 200.0
+
+[sub_resource type="ParticlesMaterial" id=2]
+lifetime_randomness = 0.3
+trail_divisor = 3
+emission_shape = 1
+emission_sphere_radius = 200.0
+flag_disable_z = true
+direction = Vector3( 0, 0, 0 )
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 100.0
+initial_velocity_random = 0.5
+orbit_velocity = 0.1
+orbit_velocity_random = 0.3
 
 [node name="MassCenterCamera2D" type="Camera2D"]
 current = true
@@ -21,3 +38,15 @@ polygon = PoolVector2Array( -5, -5, -5, 5, 5, 5, 5, -5 )
 [node name="max_distance" parent="." instance=ExtResource( 2 )]
 visible = false
 width = 10.0
+
+[node name="play_area" type="Area2D" parent="."]
+script = ExtResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="play_area"]
+shape = SubResource( 1 )
+
+[node name="Particles2D" type="Particles2D" parent="play_area"]
+visible = false
+amount = 1000
+process_material = SubResource( 2 )
+[connection signal="body_shape_exited" from="play_area" to="play_area" method="_on_play_area_body_shape_exited"]

@@ -10,6 +10,10 @@ onready var planets: Array = self.get_tree().get_nodes_in_group("planet")
 onready var players: Array = self.get_tree().get_nodes_in_group("players")
 
 
+func _ready():
+	$play_area.set_play_area_size(self.maximum_distance)
+
+
 func _process(_delta):
 	var mass_center: Vector2 = Vector2.ZERO
 	var mass_sum: float = 0

@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://graphics/bullet_glowing.png" type="Texture" id=1]
+
+[node name="bullet_small" type="Sprite"]
+scale = Vector2( 0.0926099, 0.0926099 )
+texture = ExtResource( 1 )
