@@ -21,6 +21,8 @@ radius = 43.7347
 "players",
 ]]
 physics_material_override = SubResource( 1 )
+contacts_reported = 3
+contact_monitor = true
 linear_damp = 0.0
 angular_damp = 0.0
 script = ExtResource( 2 )
@@ -37,7 +39,7 @@ shape = SubResource( 2 )
 [node name="Shape" type="CollisionShape2D" parent="."]
 shape = SubResource( 3 )
 
-[node name="planet_earthlike" type="Sprite" parent="."]
+[node name="Sprite" type="Sprite" parent="."]
 scale = Vector2( 0.109857, 0.109857 )
 texture = ExtResource( 5 )
 
@@ -58,3 +60,4 @@ texture = ExtResource( 4 )
 
 [node name="BulletSpawnPosition" type="Node2D" parent="RotationPoint/Cannon"]
 position = Vector2( 90, 0 )
+[connection signal="body_entered" from="." to="." method="_on_PlanetPlayer_body_entered"]

@@ -2,6 +2,7 @@ extends "../planet/Planet.gd"
 
 export var PLAYER_NUMBER: int = 0
 export var bullet_impulse: float = 100
+export var SCALING_FACTOR = 0.5
 export var hasRecoil: bool = true
 
 export var is_controlled_by_mouse: bool = false
@@ -16,6 +17,9 @@ onready var rotation_point = $RotationPoint
 onready var cannon = $RotationPoint/Cannon
 onready var bullet_spawn_position = $RotationPoint/Cannon/BulletSpawnPosition
 onready var bullet = preload("res://planet_player/bullet.tscn")
+onready var shape: CollisionShape2D = $Shape
+onready var sprite: Sprite = $Sprite
+onready var bullet_scale = 1
 
 
 func _process(_delta):
@@ -41,8 +45,8 @@ func _input(event):
 
 
 func shoot():
-	print("peng!")
 	var bullet_instance = bullet.instance()
+	bullet_instance.bullet_scale = bullet_scale
 	var bullet_spawn_position_global = bullet_spawn_position.get_global_position()
 	get_tree().get_root().add_child(bullet_instance)
 	bullet_instance.position = bullet_spawn_position_global
@@ -76,3 +80,17 @@ func get_joystick_input():
 	if rightAnalogStick_vector.length() < JOYPAD_DEADZONE:
 		rightAnalogStick_vector = Vector2(0, 0)
 	return [leftAnalogStick_vector, rightAnalogStick_vector]
+
+func take_damage():
+	sprite.scale 	*= SCALING_FACTOR
+	shape.scale 	*= SCALING_FACTOR
+	cannon.scale 	*= SCALING_FACTOR
+	mass 			*= SCALING_FACTOR
+	bullet_impulse 	*= SCALING_FACTOR
+	bullet_scale	*= SCALING_FACTOR
+	print("bääähm")
+	
+
+func _on_PlanetPlayer_body_entered(body):
+	if body.is_in_group("bullets"):
+		take_damage()
