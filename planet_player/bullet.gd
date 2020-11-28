@@ -2,7 +2,9 @@ extends RigidBody2D
 
 const PARTICLES = preload("res://effects/TimedParticles.tscn")
 
-var bullet_scale:float = 1
+export var EXPLOSION_IMPULSE: float = 500
+
+var bullet_scale: float = 1
 
 onready var TIMER = self.get_node("Lifetimer")
 onready var PARENT = self.get_parent()
@@ -12,14 +14,16 @@ onready var maxScale = sprite.scale
 onready var maxMass = mass
 
 func _ready():
-	set_scale(bullet_scale)
+	_set_scale(bullet_scale)
 
-func set_scale(new_scale):
+func _set_scale(new_scale):
 	collisionShape.scale 	= maxScale * new_scale
 	sprite.scale 			= maxScale * new_scale
 	mass					= maxMass * new_scale
 
 func _on_Bullet_body_entered(body: Node):
+	if (body != null) and (body.get_class() == "RigidBody2D"):
+		body.apply_central_impulse((body.position - self.position).normalized() * EXPLOSION_IMPULSE)
 	self.explode(body)
 
 func _on_Lifetimer_timeout():
