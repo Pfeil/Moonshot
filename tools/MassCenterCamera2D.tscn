@@ -7,4 +7,17 @@
 current = true
 script = ExtResource( 1 )
 
+[node name="screen_end_indicator" type="Polygon2D" parent="."]
+visible = false
+scale = Vector2( 7.03344, 7.03344 )
+polygon = PoolVector2Array( -5, -5, -5, 5, 5, 5, 5, -5 )
+
+[node name="boundary_indicator" type="Polygon2D" parent="."]
+visible = false
+scale = Vector2( 7.03344, 7.03344 )
+color = Color( 0.00784314, 0.972549, 0, 1 )
+polygon = PoolVector2Array( -5, -5, -5, 5, 5, 5, 5, -5 )
+
 [node name="max_distance" parent="." instance=ExtResource( 2 )]
+visible = false
+width = 10.0
