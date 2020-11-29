@@ -4,6 +4,10 @@ extends Camera2D
 export var maximum_distance: float = 4000
 # minimal margin between players and end of the screen (multiplyer)
 export var bounary_to_players: float = 2
+# in case of a changed mass center, use this factor for interpolation
+export var camera_move_interpolation_factor: float = 0.005
+# in case of changed player positions (especially "beaming") this is used to interpolate.
+export var camera_zoom_interpolation_factor: float = 0.1
 
 const step: float = 0.9;  # 0.1 = 10%
 onready var planets: Array = self.get_tree().get_nodes_in_group("planet")
@@ -21,7 +25,7 @@ func _process(_delta):
 		mass_center += planet.get_position() * planet.get_mass()
 		mass_sum += planet.get_mass()
 	mass_center /= mass_sum
-	self.position = mass_center
+	self.position = self.position.linear_interpolate(mass_center, self.camera_move_interpolation_factor)
 	
 	self.adjust_zoom_level()
 
@@ -54,11 +58,23 @@ func adjust_zoom_level():
 		y = max(y, abs(thing.global_position.y - self_y)) * b
 	
 	var target_size: Vector2 = Vector2(x, y)
-	$max_distance.set_direction(target_size) # debug
-	$boundary_indicator.position = target_size # debug
+	#$max_distance.set_direction(target_size) # debug
+	#$boundary_indicator.position = target_size # debug
 	var distance = min(target_size.length(), self.maximum_distance) # This determines the maximum zoom level!
 	var window_size: Vector2 = OS.window_size
 	var screen_radius: float = (min(window_size.y, window_size.x) * self.zoom.x) / 2.0
-	$screen_end_indicator.position = Vector2(screen_radius, screen_radius) # debug
+	#$screen_end_indicator.position = Vector2(screen_radius, screen_radius) # debug
 	var factor: float = distance / screen_radius
-	self.zoom *= Vector2(factor, factor)
+	self.zoom *= Vector2(1,1).linear_interpolate(Vector2(factor, factor), self.camera_zoom_interpolation_factor)
+
+func remove_planet(body: Node):
+	var index = self.planets.find(body)
+	self.planets.remove(index)
+	
+func add_planet(body: Node):
+	if self.planets.find(body) == -1 and body.is_in_group("planets"):
+		self.planets.push_back(body)
+
+func add_player(body: Node):
+	if self.players.find(body) == -1 and body.is_in_group("players"):
+		self.players.push_back(body)
