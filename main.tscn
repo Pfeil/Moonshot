@@ -1,69 +1,35 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://planet/Planet.tscn" type="PackedScene" id=1]
 [ext_resource path="res://main.gd" type="Script" id=2]
-[ext_resource path="res://Player.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Camera2D.gd" type="Script" id=4]
+[ext_resource path="res://planet_player/planet_player.tscn" type="PackedScene" id=3]
+[ext_resource path="res://tools/MassCenterCamera2D.tscn" type="PackedScene" id=4]
 
-
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 516.664, 12.8007 )
-
-[sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 17.1716, 303.751 )
-
-[node name="Mein Scene (test)" type="Node2D"]
+[node name="Game" type="Node2D"]
 script = ExtResource( 2 )
 
 [node name="Planet" parent="." instance=ExtResource( 1 )]
-mass = 65535.0
+mass = 400.0
+start_implulse = Vector2( -50, 0 )
 
 [node name="Planet2" parent="." instance=ExtResource( 1 )]
-position = Vector2( 119.933, -175.244 )
-mass = 1129.66
+position = Vector2( 168.041, -654.547 )
+mass = 200.0
+start_implulse = Vector2( 50, 0 )
 
 [node name="Planet3" parent="." instance=ExtResource( 1 )]
-position = Vector2( 381.91, -209.57 )
-mass = 3705.39
+position = Vector2( 1402.88, -444.767 )
+mass = 200.0
+start_implulse = Vector2( 30, 100 )
 
-[node name="Player" parent="." instance=ExtResource( 3 )]
-position = Vector2( -3.43656, -56.6966 )
+[node name="MassCenterCamera2D" parent="." instance=ExtResource( 4 )]
+maximum_distance = 2000.0
+bounary_to_players = 1.2
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
-position = Vector2( 3.43656, 56.6966 )
-current = true
-limit_smoothed = true
-drag_margin_h_enabled = true
-drag_margin_v_enabled = true
-editor_draw_limits = true
-script = ExtResource( 4 )
+[node name="PlanetPlayer" parent="." instance=ExtResource( 3 )]
+position = Vector2( 941.804, -110.998 )
+is_controlled_by_mouse = true
 
-[node name="Borders" type="Node2D" parent="."]
-
-[node name="Border_UP" type="RigidBody2D" parent="Borders"]
-mode = 1
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Borders/Border_UP"]
-position = Vector2( -1.68182, -303.564 )
-shape = SubResource( 1 )
-
-[node name="Border_DOWN" type="RigidBody2D" parent="Borders"]
-mode = 1
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Borders/Border_DOWN"]
-position = Vector2( 0.840881, 303.564 )
-shape = SubResource( 1 )
-
-[node name="Border_LEFT" type="RigidBody2D" parent="Borders"]
-mode = 1
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Borders/Border_LEFT"]
-position = Vector2( -515.469, -2.52274 )
-shape = SubResource( 2 )
-
-[node name="Border_RIGHT" type="RigidBody2D" parent="Borders"]
-mode = 1
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Borders/Border_RIGHT"]
-position = Vector2( 517.992, -3.05176e-05 )
-shape = SubResource( 2 )
+[node name="PlanetPlayer2" parent="." instance=ExtResource( 3 )]
+position = Vector2( -938.44, 126.134 )
+PLAYER_NUMBER = 1

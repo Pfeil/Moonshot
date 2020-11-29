@@ -12,8 +12,3 @@ func _ready():
 	self.planet_a.apply_central_impulse(Vector2.UP   * factor)
 	self.planet_b.apply_central_impulse(Vector2.DOWN * factor)
 	self.planet_c.apply_central_impulse(Vector2.DOWN * factor)
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
