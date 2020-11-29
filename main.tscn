@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://planet/Planet.tscn" type="PackedScene" id=1]
 [ext_resource path="res://main.gd" type="Script" id=2]
 [ext_resource path="res://planet_player/planet_player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://tools/MassCenterCamera2D.tscn" type="PackedScene" id=4]
+[ext_resource path="res://music/musicplayer.tscn" type="PackedScene" id=5]
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 2 )
@@ -33,3 +34,5 @@ is_controlled_by_mouse = true
 [node name="PlanetPlayer2" parent="." instance=ExtResource( 3 )]
 position = Vector2( -938.44, 126.134 )
 PLAYER_NUMBER = 1
+
+[node name="AudioPlayer" parent="." instance=ExtResource( 5 )]
