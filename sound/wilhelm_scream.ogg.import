@@ -11,5 +11,5 @@ dest_files=[ "res://.import/wilhelm_scream.ogg-88b530ed32f98cc4e950789a6ec8cf6d.
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

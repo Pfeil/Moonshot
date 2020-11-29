@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://planet/wilhelm_scream.gd" type="Script" id=1]
+[ext_resource path="res://sound/wilhelm_scream.ogg" type="AudioStream" id=2]
+
+[node name="screamer" type="AudioStreamPlayer2D"]
+stream = ExtResource( 2 )
+max_distance = 500.0
+attenuation = 2.82843
+script = ExtResource( 1 )
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

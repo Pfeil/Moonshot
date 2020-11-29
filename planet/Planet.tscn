@@ -1,5 +1,6 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
+[ext_resource path="res://sound/screamer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://planet/Planet.gd" type="Script" id=2]
 [ext_resource path="res://tools/direction_arrow.tscn" type="PackedScene" id=3]
 [ext_resource path="res://graphics/planet_moonlike.png" type="Texture" id=4]
@@ -22,6 +23,8 @@ radius = 43.7347
 "walkables",
 ]]
 physics_material_override = SubResource( 1 )
+contacts_reported = 1
+contact_monitor = true
 linear_damp = 0.0
 angular_damp = 0.0
 script = ExtResource( 2 )
@@ -43,8 +46,11 @@ scale = Vector2( 0.110058, 0.110058 )
 texture = ExtResource( 4 )
 
 [node name="ImpulseArrow" parent="." instance=ExtResource( 3 )]
+visible = false
 width = 5.0
 default_color = Color( 1, 0, 0, 1 )
-[connection signal="body_entered" from="." to="." method="_on_Planet_body_entered"]
+
+[node name="screamer" parent="." instance=ExtResource( 1 )]
+[connection signal="body_entered" from="." to="screamer" method="scream"]
 [connection signal="body_entered" from="GravityArea" to="." method="_on_GravityArea_body_entered"]
 [connection signal="body_exited" from="GravityArea" to="." method="_on_GravityArea_body_exited"]
