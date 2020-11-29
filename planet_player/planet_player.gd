@@ -23,16 +23,18 @@ onready var bullet_scale = 1
 
 
 func _process(_delta):
-	if is_controlled_by_mouse:
+	
+	if PLAYER_NUMBER == 1:
 		aiming_direction = (get_global_mouse_position() - transform.get_origin())
 		if Input.is_action_just_pressed("ui_select"):
 			shoot()
-	else:
-		var analogStick_vectors = get_joystick_input()
-		if analogStick_vectors[0]:	#Joystick controlls
-			aiming_direction = analogStick_vectors[0].normalized()
-		elif analogStick_vectors[1]:
-			aiming_direction = analogStick_vectors[1].normalized()
+
+	# controller support
+	var analogStick_vectors = get_joystick_input()
+	if analogStick_vectors[0]:	#Joystick controlls
+		aiming_direction = analogStick_vectors[0].normalized()
+	elif analogStick_vectors[1]:
+		aiming_direction = analogStick_vectors[1].normalized()
 	rotation_point.look_at(transform.get_origin() + aiming_direction)
 
 func _physics_process(delta):
