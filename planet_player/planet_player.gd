@@ -28,7 +28,8 @@ func set_my_scale(new_my_scale: float):
 	if cannon:
 		cannon.scale 	= new_my_scale * original_cannon_scale
 
-
+func reset_scale():
+	set_my_scale(1)
 
 func _process(_delta):
 	if PLAYER_NUMBER == 1:	#Second player can use mouse to play
