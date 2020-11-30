@@ -2,14 +2,14 @@ extends "../planet/Planet.gd"
 
 export var PLAYER_NUMBER: int = 0
 export var bullet_impulse: float = 100
-export var SCALING_FACTOR = 0.5
+export var damage_modifier: float = 0.1
 export var hasRecoil: bool = true
 
 export var is_controlled_by_mouse: bool = false
 export var JOYPAD_NUMBER = 0
 export var JOYPAD_DEADZONE = 0.25
 
-
+var original_cannon_scale
 var aiming_direction: Vector2
 onready var joypad_left:Vector2 = Vector2.ZERO
 onready var OS_NAME = OS.get_name()
@@ -17,18 +17,24 @@ onready var rotation_point = $RotationPoint
 onready var cannon = $RotationPoint/Cannon
 onready var bullet_spawn_position = $RotationPoint/Cannon/BulletSpawnPosition
 onready var bullet = preload("res://planet_player/bullet.tscn")
-onready var shape: CollisionShape2D = $Shape
-onready var sprite: Sprite = $Sprite
-onready var bullet_scale = 1
+
+func setup_editor_variables():
+	cannon = $RotationPoint/Cannon
+	original_cannon_scale = cannon.scale
+	.setup_editor_variables()
+
+func set_my_scale(new_my_scale: float):
+	.set_my_scale(new_my_scale)
+	if cannon:
+		cannon.scale 	= new_my_scale * original_cannon_scale
+
 
 
 func _process(_delta):
-	
-	if PLAYER_NUMBER == 1:
+	if PLAYER_NUMBER == 1:	#Second player can use mouse to play
 		aiming_direction = (get_global_mouse_position() - transform.get_origin())
 		if Input.is_action_just_pressed("ui_select"):
 			shoot()
-
 	# controller support
 	var analogStick_vectors = get_joystick_input()
 	if analogStick_vectors[0]:	#Joystick controlls
@@ -48,7 +54,7 @@ func _input(event):
 
 func shoot():
 	var bullet_instance = bullet.instance()
-	bullet_instance.bullet_scale = bullet_scale
+	bullet_instance.my_scale = my_scale
 	var bullet_spawn_position_global = bullet_spawn_position.get_global_position()
 	get_tree().get_root().add_child(bullet_instance)
 	bullet_instance.position = bullet_spawn_position_global
@@ -83,16 +89,7 @@ func get_joystick_input():
 		rightAnalogStick_vector = Vector2(0, 0)
 	return [leftAnalogStick_vector, rightAnalogStick_vector]
 
-func take_damage():
-	sprite.scale 	*= SCALING_FACTOR
-	shape.scale 	*= SCALING_FACTOR
-	cannon.scale 	*= SCALING_FACTOR
-	mass 			*= SCALING_FACTOR
-	bullet_impulse 	*= SCALING_FACTOR
-	bullet_scale	*= SCALING_FACTOR
-	print("bääähm")
-	
 
 func _on_PlanetPlayer_body_entered(body):
 	if body.is_in_group("bullets"):
-		take_damage()
+		set_my_scale(my_scale - damage_modifier * body.my_scale)
