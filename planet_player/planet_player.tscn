@@ -63,5 +63,5 @@ texture = ExtResource( 4 )
 position = Vector2( 90, 0 )
 
 [node name="screamer" parent="." instance=ExtResource( 1 )]
-[connection signal="body_entered" from="." to="." method="_on_PlanetPlayer_body_entered"]
 [connection signal="body_entered" from="." to="screamer" method="scream"]
+[connection signal="body_entered" from="." to="." method="_on_PlanetPlayer_body_entered"]
