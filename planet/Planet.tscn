@@ -22,6 +22,7 @@ radius = 43.7347
 "planet",
 "walkables",
 ]]
+mass = 10.0
 physics_material_override = SubResource( 1 )
 contacts_reported = 1
 contact_monitor = true
