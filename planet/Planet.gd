@@ -2,7 +2,8 @@ tool
 extends RigidBody2D
 
 const G = 1000		#TODO adjust this constant
-const MAX_SCALE = 20		#Scale at which planet explodes
+const MAX_SCALE = 10		#Scale at which planet explodes
+const EXPLOSION_IMPULSE_FACTOR = 1000	# strength of impulse at which smaller planets from explosion 
 
 var editor_variables_setup:bool = false
 var is_in_physics_ready = true
@@ -10,18 +11,18 @@ var is_in_physics_ready = true
 export var density: float = 10	setget set_density
 export var my_scale: float = 1	setget set_my_scale
 
-export var start_implulse: Vector2 = Vector2.ZERO
+export var start_impulse: Vector2 = Vector2.ZERO
 export var path_to_central_planet: NodePath
 export var around_planet_circulating_objects = []
 
 var rigidBodiesInRange = []
 
-onready var current_force = start_implulse
+onready var current_force = start_impulse
 onready var impulse_arrow = $ImpulseArrow
 onready var sprite: Sprite = $Sprite
 onready var shape: CollisionShape2D = $Shape
 onready var planet = load("res://planet/Planet.tscn")
-var is_fusing = false
+var is_not_allowed_to_fuse = false
 var original_sprite_scale
 var original_shape_scale
 
@@ -48,28 +49,36 @@ func set_my_scale(new_my_scale: float):
 	if shape:
 		shape.scale 	= new_my_scale * original_shape_scale
 	mass = my_scale * my_scale * density
-	if my_scale > MAX_SCALE:
-		explode()
+
 
 #TODO
 func explode():
+	self.is_not_allowed_to_fuse = true
 	print("explode!")
-	#var new_scale = my_scale/4
-	#var distance_to_center = new_scale
-	#create_new_planet(self.position + Vector2.UP * new_scale, new_scale)
-	#create_new_planet(self.position + Vector2.DOWN * new_scale, new_scale)
-	#create_new_planet(self.position + Vector2.LEFT * new_scale, new_scale)
-	#create_new_planet(self.position + Vector2.RIGHT * new_scale, new_scale)
+	var radius_old = shape.shape.radius * my_scale	#TODO think abour better variable to set distance between new planets
+	print(radius_old)
+	var new_scale = my_scale / 4
+	var distance_to_center = new_scale
+	print("explosion_position: "+str(self.position))
+	create_new_planet(self.position + Vector2.UP * 1*radius_old, 	new_scale, self.linear_velocity, Vector2.UP * EXPLOSION_IMPULSE_FACTOR)
+	create_new_planet(self.position + Vector2.DOWN * 1*radius_old, 	new_scale, self.linear_velocity, Vector2.DOWN * EXPLOSION_IMPULSE_FACTOR)
+	create_new_planet(self.position + Vector2.LEFT * 1*radius_old, 	new_scale, self.linear_velocity, Vector2.LEFT * EXPLOSION_IMPULSE_FACTOR)
+	create_new_planet(self.position + Vector2.RIGHT * 1*radius_old,	new_scale, self.linear_velocity, Vector2.RIGHT * EXPLOSION_IMPULSE_FACTOR)
 	emit_signal("planet_deleted", self)
 	self.call_deferred("queue_free")
 
 
 func create_new_planet(planet_position, planet_scale, planet_velocity: Vector2 = Vector2.ZERO, planet_start_impulse: Vector2 = Vector2.ZERO):
-	var planet_instance = planet.instance()
+	var planet_instance: RigidBody2D = planet.instance()
+	planet_instance.is_not_allowed_to_fuse = true
 	planet_instance.position = planet_position
 	planet_instance.my_scale = planet_scale
 	planet_instance.linear_velocity = planet_velocity
-	get_tree().get_root().call_deferred("add_child", planet_instance)
+	#get_tree().get_root().call_deferred("add_child", planet_instance)
+	get_tree().get_root().add_child(planet_instance)
+	planet_instance.apply_central_impulse( planet_start_impulse)
+	print(planet_instance.position)
+	#planet_instance.is_not_allowed_to_fuse = false
 	emit_signal("planet_created", planet_instance)
 
 
@@ -85,6 +94,7 @@ func _physics_process(_delta: float):
 		if not editor_variables_setup:
 			setup_editor_variables()
 	if not Engine.editor_hint:	# Code to execute in game:
+		
 		if is_in_physics_ready:
 			if path_to_central_planet:
 				var central_planet = get_node(path_to_central_planet)
@@ -94,8 +104,11 @@ func _physics_process(_delta: float):
 				self.apply_central_impulse( orbit_direction * sqrt( (G * (central_planet.mass + mass) ) / (distance) ) )
 				impulse_arrow.set_direction(orbit_direction * 100)
 			else:
-				apply_central_impulse(start_implulse)
+				apply_central_impulse(start_impulse)
 			is_in_physics_ready = false
+
+		if my_scale >= MAX_SCALE:
+			explode()
 
 		for body in rigidBodiesInRange:
 			if body != null:	#check if body still exists
@@ -133,9 +146,9 @@ func _on_GravityArea_body_exited(body):
 func _on_Planet_body_entered(body):
 	if body.is_in_group("planet"):
 		# fuse with other planet
-		if not (self.is_fusing or body.is_fusing):
-			self.is_fusing = true
-			body.is_fusing = true
+		if not (self.is_not_allowed_to_fuse or body.is_not_allowed_to_fuse):
+			self.is_not_allowed_to_fuse = true
+			body.is_not_allowed_to_fuse = true
 			emit_signal("planet_deleted", self)
 			body.emit_signal("planet_deleted", self)
 			
