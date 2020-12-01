@@ -2,7 +2,8 @@ extends RigidBody2D
 
 const PARTICLES = preload("res://effects/TimedParticles.tscn")
 
-export var EXPLOSION_IMPULSE: float = 500
+export var EXPLOSION_IMPULSE_MODIFIER: float = 1000
+export var BULLET_IMPULSE_MODIFIER: float = 750
 export var my_scale: float = 1
 
 onready var TIMER = self.get_node("Lifetimer")
@@ -30,7 +31,7 @@ func set_scale(new_scale: Vector2):
 
 func _on_Bullet_body_entered(body: Node):
 	if (body != null) and (body.get_class() == "RigidBody2D"):
-		body.apply_central_impulse((body.position - self.position).normalized() * EXPLOSION_IMPULSE)
+		body.apply_central_impulse((body.position - self.position).normalized() * EXPLOSION_IMPULSE_MODIFIER * my_scale * my_scale)
 	self.explode(body)
 
 func _on_Lifetimer_timeout():

@@ -4,6 +4,7 @@ export var number_emitters: int = 100
 
 const PARTICLES = preload("res://effects/border_emitter.tscn")
 const PLANETS = preload("res://planet/Planet.tscn")
+const MAX_NUMBER_OF_PLANETS = 10
 
 onready var camera = self.get_parent()
 onready var shape = self.get_node("CollisionShape2D")
@@ -28,13 +29,14 @@ func _on_play_area_body_shape_exited(body_id: int, body: Node, body_shape: int, 
 	if body.is_in_group("planet"):
 		camera.remove_planet(body)
 		body.queue_free()
-		# spawn a new one
-		var p: RigidBody2D = PLANETS.instance()  # TODO spawn a random planet (other mass, other kind to make game less boring)
-		p.mass = 100 # TODO hack. we should have a constructor to generate a random planet with random properties like mass.
-		var spawn_at = camera.global_position + Vector2.RIGHT.rotated(rand_range(0, 2*PI)) * get_area_radius()
-		p.global_position = spawn_at
-		self.get_tree().root.add_child(p)
-		p.apply_central_impulse(-spawn_at.rotated(rand_range(-PI/3, PI/3)) * rand_range(0.1, 0.8) / p.mass)
+		if camera.planets.size() < MAX_NUMBER_OF_PLANETS:
+			# spawn a new one
+			var p: RigidBody2D = PLANETS.instance()  # TODO spawn a random planet (other mass, other kind to make game less boring)
+			p.mass = 100 # TODO hack. we should have a constructor to generate a random planet with random properties like mass.
+			var spawn_at = camera.global_position + Vector2.RIGHT.rotated(rand_range(0, 2*PI)) * get_area_radius()
+			p.global_position = spawn_at
+			self.get_tree().root.call_deferred("add_child", p)	#instead of self.get_tree().root.add_child(p)
+			p.apply_central_impulse(-spawn_at.rotated(rand_range(-PI/3, PI/3)) * rand_range(0.1, 0.8) / p.mass)
 		
 	if body.is_in_group("players"):
 		body.linear_velocity = Vector2.ZERO		#TODO velocity should be relative to the mass center

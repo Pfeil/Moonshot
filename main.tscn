@@ -10,18 +10,19 @@
 script = ExtResource( 2 )
 
 [node name="Planet" parent="." instance=ExtResource( 1 )]
-mass = 400.0
+mass = 10.0
 start_implulse = Vector2( -50, 0 )
 
 [node name="Planet2" parent="." instance=ExtResource( 1 )]
 position = Vector2( 168.041, -654.547 )
-mass = 200.0
+mass = 10.0
 start_implulse = Vector2( 50, 0 )
 
 [node name="Planet3" parent="." instance=ExtResource( 1 )]
-position = Vector2( 1402.88, -444.767 )
-mass = 200.0
-start_implulse = Vector2( 30, 100 )
+position = Vector2( 988.756, -654.547 )
+mass = 1000.0
+my_scale = 10.0
+start_implulse = Vector2( 50, 0 )
 
 [node name="MassCenterCamera2D" parent="." instance=ExtResource( 4 )]
 maximum_distance = 2000.0
@@ -29,10 +30,14 @@ bounary_to_players = 1.2
 
 [node name="PlanetPlayer" parent="." instance=ExtResource( 3 )]
 position = Vector2( 941.804, -110.998 )
-is_controlled_by_mouse = true
+density = 1.0
+my_scale = 1.0
 
 [node name="PlanetPlayer2" parent="." instance=ExtResource( 3 )]
-position = Vector2( -938.44, 126.134 )
+position = Vector2( -938.44, 129.131 )
+density = 1.0
+my_scale = 1.0
 PLAYER_NUMBER = 1
 
 [node name="AudioPlayer" parent="." instance=ExtResource( 5 )]
+isMuted = true

@@ -15,15 +15,24 @@ onready var players: Array = self.get_tree().get_nodes_in_group("players")
 
 
 func _ready():
+	for planet in planets:
+		planet.connect("planet_deleted", self, "_on_planet_deleted")
+		planet.connect("planet_created", self, "_on_planet_created")	#emited by planet if it fuses with other planet and new fused planet is created
 	$play_area.set_play_area_size(self.maximum_distance)
 
+func _on_planet_deleted(planet):
+	remove_planet(planet)
+
+func _on_planet_created(planet):
+	add_planet(planet)
 
 func _process(_delta):
 	var mass_center: Vector2 = Vector2.ZERO
 	var mass_sum: float = 0
 	for planet in planets:
-		mass_center += planet.get_position() * planet.get_mass()
-		mass_sum += planet.get_mass()
+		if planet != null:	#TODO dirty fix
+			mass_center += planet.get_position() * planet.get_mass()
+			mass_sum += planet.get_mass()
 	mass_center /= mass_sum
 	self.position = self.position.linear_interpolate(mass_center, self.camera_move_interpolation_factor)
 	
@@ -69,10 +78,11 @@ func adjust_zoom_level():
 
 func remove_planet(body: Node):
 	var index = self.planets.find(body)
-	self.planets.remove(index)
+	if index != -1:
+		self.planets.remove(index)
 	
 func add_planet(body: Node):
-	if self.planets.find(body) == -1 and body.is_in_group("planets"):
+	if self.planets.find(body) == -1 and body.is_in_group("planet"):
 		self.planets.push_back(body)
 
 func add_player(body: Node):
