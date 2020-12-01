@@ -16,6 +16,7 @@ onready var cannon = $RotationPoint/Cannon
 onready var bullet_spawn_position = $RotationPoint/Cannon/BulletSpawnPosition
 onready var bullet = preload("res://planet_player/bullet.tscn")
 onready var original_scale = my_scale
+onready var shoot_sound = self.get_node("shoot_sound")
 
 func setup_editor_variables():
 	cannon = $RotationPoint/Cannon
@@ -62,6 +63,7 @@ func shoot():
 	bullet_instance.linear_velocity = self.linear_velocity	#TODO
 	bullet_instance.apply_central_impulse(Vector2(bullet_instance.BULLET_IMPULSE_MODIFIER * bullet_instance.my_scale * bullet_instance.my_scale, 0).rotated(rotation_point.rotation))
 	self.apply_central_impulse(-Vector2(bullet_instance.BULLET_IMPULSE_MODIFIER * bullet_instance.my_scale * bullet_instance.my_scale, 0).rotated(rotation_point.rotation))
+	self.shoot_sound.play()
 
 
 func get_joystick_input():
