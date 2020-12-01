@@ -1,7 +1,7 @@
 tool
 extends RigidBody2D
 
-const G = 1000		#TODO adjust this constant
+const G = 30000		#TODO adjust this constant
 const MAX_SCALE = 10		#Scale at which planet explodes
 const EXPLOSION_IMPULSE_FACTOR = 1000	# strength of impulse at which smaller planets from explosion 
 

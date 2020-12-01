@@ -2,8 +2,8 @@ extends RigidBody2D
 
 const PARTICLES = preload("res://effects/TimedParticles.tscn")
 
-export var EXPLOSION_IMPULSE_MODIFIER: float = 1000
-export var BULLET_IMPULSE_MODIFIER: float = 750
+export var EXPLOSION_IMPULSE_MODIFIER: float = 800
+export var BULLET_IMPULSE_MODIFIER: float = 350
 export var my_scale: float = 1
 
 onready var TIMER = self.get_node("Lifetimer")
