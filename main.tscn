@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://planet/Planet.tscn" type="PackedScene" id=1]
 [ext_resource path="res://main.gd" type="Script" id=2]
 [ext_resource path="res://planet_player/planet_player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://tools/MassCenterCamera2D.tscn" type="PackedScene" id=4]
 [ext_resource path="res://music/musicplayer.tscn" type="PackedScene" id=5]
+[ext_resource path="res://tools/score.tscn" type="PackedScene" id=6]
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 2 )
@@ -16,10 +17,6 @@ position = Vector2( 168.041, -654.547 )
 
 [node name="Planet3" parent="." instance=ExtResource( 1 )]
 position = Vector2( -600, -457 )
-
-[node name="MassCenterCamera2D" parent="." instance=ExtResource( 4 )]
-maximum_distance = 2000.0
-bounary_to_players = 1.2
 
 [node name="PlanetPlayer" parent="." instance=ExtResource( 3 )]
 position = Vector2( 941.804, -110.998 )
@@ -33,3 +30,12 @@ my_scale = 3.0
 PLAYER_NUMBER = 1
 
 [node name="AudioPlayer" parent="." instance=ExtResource( 5 )]
+
+[node name="MassCenterCamera2D" parent="." instance=ExtResource( 4 )]
+maximum_distance = 2000.0
+bounary_to_players = 1.2
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Score" parent="CanvasLayer" instance=ExtResource( 6 )]
+[connection signal="player_lost" from="MassCenterCamera2D" to="CanvasLayer/Score" method="player_event"]

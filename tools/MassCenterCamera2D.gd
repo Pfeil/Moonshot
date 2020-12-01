@@ -13,6 +13,7 @@ const step: float = 0.9;  # 0.1 = 10%
 onready var planets: Array = self.get_tree().get_nodes_in_group("planet")
 onready var players: Array = self.get_tree().get_nodes_in_group("players")
 
+signal player_lost(player)
 
 func _ready():
 	for planet in planets:

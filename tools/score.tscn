@@ -1,0 +1,57 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://fonts/ViafontTTF.tres" type="DynamicFont" id=1]
+[ext_resource path="res://tools/score.gd" type="Script" id=2]
+
+[node name="Score" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 20.0
+margin_top = 20.0
+margin_right = -20.0
+margin_bottom = -430.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+margin_right = 984.0
+margin_bottom = 150.0
+size_flags_vertical = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="p1" type="Label" parent="MarginContainer/HBoxContainer"]
+margin_right = 490.0
+margin_bottom = 150.0
+rect_min_size = Vector2( 200, 150 )
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 1 )
+text = "0
+"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="p2" type="Label" parent="MarginContainer/HBoxContainer"]
+margin_left = 494.0
+margin_right = 984.0
+margin_bottom = 150.0
+rect_min_size = Vector2( 200, 150 )
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 1 )
+text = "0
+"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}

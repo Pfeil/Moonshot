@@ -39,6 +39,8 @@ func _on_play_area_body_shape_exited(body_id: int, body: Node, body_shape: int, 
 			p.apply_central_impulse(-spawn_at.rotated(rand_range(-PI/3, PI/3)) * rand_range(0.1, 0.8) / p.mass)
 		
 	if body.is_in_group("players"):
+		var player_number = body.PLAYER_NUMBER
+		camera.emit_signal("player_lost", player_number)
 		body.linear_velocity = Vector2.ZERO		#TODO velocity should be relative to the mass center
 		body.global_position = camera.global_position + (Vector2.RIGHT * get_area_radius() / 2)
 		body.reset_scale()
